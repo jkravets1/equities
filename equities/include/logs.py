@@ -1,0 +1,7 @@
+def log_empty(): print(' > 🗑️  ( empty equities universe ) - [local storage disconnected]')
+def log_auto():  print(' > 🦀 ( autobuilder started )')
+def log_full():  print(' > 🐋 ( equities universe ) - [local storage connected]')
+def log_download(): print(' > 📦 ( downloading sec packages )\t')
+def log_parse(): print(' > 🏭 ( parsing structs )\t')
+def log_built(): print(' > ✨ ( built local storage )\t')
+def log_purge(): print(' > 💀 ( equities universe purged ) - [storage deleted]\t')

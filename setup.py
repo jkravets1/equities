@@ -18,13 +18,13 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "2.1.9"
+VERSION = "2.2.5"
 
 setup(
     name="equities", # Replace with your own username
     version=VERSION,
     author="Tiger_Shark",
-    author_email="na@gmail.com",
+    author_email="ljwcharles@gmail.com",
     description="equities aims to democratize access to public company financial data.",
     long_description=long_description,
     long_description_content_type="text/markdown",

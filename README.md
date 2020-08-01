@@ -90,7 +90,7 @@ at thousands of numeric datatables. Let's take a very naive peek by plotting var
 as a kind of stacked timeseries. 
 
 The following is a start to finish example of how one might plot the financial statements 
-of the first three companies in the universe.
+of the first five companies in the universe.
 
 To perform this experiment, run the following: 
 
@@ -104,10 +104,9 @@ Here is the code that this function executes:
     import matplotlib.pyplot as plt
 
     u = Universe()
-    u.build()
     
     k,f,s = 'bar',(20,10),True
-    for cik in u.ciks()[:3]:
+    for cik in u.ciks()[:5]:
 
         u[cik].income().T.plot(
             kind=k,
