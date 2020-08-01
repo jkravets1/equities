@@ -1,0 +1,2 @@
+connection:
+    cloud_run_api_gateway: 'https://equities-api-gateway-jbp2n33caq-ue.a.run.app/'
