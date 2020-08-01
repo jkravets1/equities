@@ -12,7 +12,6 @@ from equities.include.logs import *
 from equities.include.dirs import *
 from equities.include.buckets import *
 
-
 class Universe(object):
 
     def __init__(self,auto_build=True):
