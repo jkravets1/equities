@@ -20,10 +20,10 @@ class Universe(object):
             log_empty()
             if auto_build:
                 log_auto()
-                self.build_storage()
+                self.build()
                 self = self.__init__(auto_build=False)
         else:
-            log_full()
+            log_full(len(self))
 
     def __len__(self):
         return len(self.ciks())
@@ -54,7 +54,7 @@ class Universe(object):
             os.path.join(meta_data_dir,'manifest.json')
             ).T.drop(['prices','dividends'])
 
-    def build_storage(self):
+    def build(self):
         log_download()
         response = requests.get(bucket_uri + 'package.zip')
         log_parse()
@@ -64,50 +64,10 @@ class Universe(object):
                 )
         log_built()
 
-    def purge_storage(self):
+    def purge(self):
         try:
             shutil.rmtree(os.path.join(data_dir,'package'))
             log_purge()
             self = self.__init__(auto_build=False)
         except:
             pass
-
-class Company(object):
-
-    def __init__(self,cik):
-        self.cik = cik
-
-    def _getsheet(self,cik,sheet):
-        cik_path = os.path.join(
-            financial_data_dir,
-            'clean',
-            cik,
-            sheet+'.csv'
-        )
-        return pd.read_csv(
-            cik_path,
-            index_col=0
-        )
-
-    def income(self):
-        return self._getsheet(
-            cik=self.cik,
-            sheet='IS'
-        )
-
-    def cash(self):
-        return self._getsheet(
-            cik=self.cik,
-            sheet='CF'
-        )
-
-    def balance(self):
-        return self._getsheet(
-            cik=self.cik,
-            sheet='BS'
-        )
-
-    def properties(self):
-        return pd.read_json(
-            os.path.join(meta_data_dir,'properties.json')
-            )[int(self.cik)]
