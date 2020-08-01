@@ -78,7 +78,7 @@ class Universe(object):
 
     def build_storage(self):
 
-        print(" > 🛢️ ( downloading sec packages )\t")
+        print(" > 📦 ( downloading sec packages )\t")
         response = requests.get(bucket_uri + 'package.zip')
 
         print(" > 🏭 ( parsing structs )\t")
@@ -89,7 +89,7 @@ class Universe(object):
 
         print(" > ✨ ( built local storage )\t")
         
-    def purge_storages(self):
+    def purge_storage(self):
         try:
             shutil.rmtree(os.path.join(data_dir,'package'))
             print(' > 💀 ( equities universe purged ) - [storage deleted]\t')
