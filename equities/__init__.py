@@ -1,29 +1,26 @@
-from equities.src.Universe import Universe
-from equities.src.Company  import Company
+from polity.api import Client
 
-def test():
+class Universe(object):
 
-    import matplotlib.pyplot as plt 
+    def __init__(self):
+        self.api = Client()
 
-    u = Universe()
-    
-    k,f,s = 'bar',(13,8),True
-    for cik in u.ciks()[:5]:
+    def __len__(self):
+        return len(self.ciks())
 
-        u[cik].income().T.plot(
-            kind=k,
-            figsize=f,
-            stacked=s)
+    def ciks(self):
+        return self.api.companies()
 
-        u[cik].cash().T.plot(
-            kind=k,
-            figsize=f,
-            stacked=s)
+    def search(self,query):
+        def invert_dict(to_invert):
+            return {v.lower():k.lower() for k,v in to_invert.items()}
+        name_to_cik = invert_dict(self.api._fetch_cik_to_name_map())
+        matches = [name for name in name_to_cik.keys() if name in query.lower()]
+        return name_to_cik.map(matches)
 
-        u[cik].balance().T.plot(
-            kind=k,
-            figsize=f,
-            stacked=s)
+    def Company(self,cik):
+        return self.api.company(cik)
 
-    plt.show()
-
+    def Statement(self,cik,kind):
+        return self.api.financial_statement(
+            cik,kind,df=True)

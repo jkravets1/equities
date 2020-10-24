@@ -22,11 +22,7 @@ Consider donating bitcoin to fund the future development of this project.
 
 ## TUTORIAL: 
 
-The library consists of two central objects, Universe and Company. 
-
-## Universe: 
-
-#### Building the Universe
+#### Instantiating a Universe
 
 We begin by initializing our universe and downloading our sec data packages.
 
@@ -38,33 +34,25 @@ We begin by initializing our universe and downloading our sec data packages.
 To get the number of companies in the universe call: 
     len(u)
 
-To get a dataframe of XBRL metadata from of all companies in the universe call: 
-
-    u.properties()
-
 "CIK" numbers are the sec's official unique identifier for public companies. To get a full list of the cik numbers call:
 
     u.ciks()
 
-#### Accessing Companies
+## Company Queries: 
 
-Universe objects are indexable by "CIK" integers. As an example, to access the first company in the universe call: 
+#### Accessing Company 
 
-    first_cik = universe.ciks()[0]
-    u[first_cik] # This returns an Company object.
+Dataframes of the company's financial statements over the universe in question is given by: 
 
-## Company: 
+    c.income()      # income statement dataframe
 
-A Company object should be thought of as an abstract representation of a real company. Every 
-company must have an associated Universe of origin. 
+    c.balance()     # Balancesheet dataframe
 
-    from equities import Company
+    c.cash()        # Cash Flow Statement dataframe
+
+    c.equity()      # Consolidated Equity dataframe
 
 #### Accessing the Financial Statements
-
-Consider the first Company in our universe, universe[u.ciks()[0]]. It is a Company object. 
-
-    c = u[u.ciks()[0]]
 
 Dataframes of the company's financial statements over the universe in question is given by: 
 
@@ -92,15 +80,10 @@ as a kind of stacked timeseries.
 The following is a start to finish example of how one might plot the financial statements 
 of the first five companies in the universe.
 
-To perform this experiment, run the following: 
-
-    from equities import test
-    test()
-
-Here is the code that this function executes: 
+Here's how we'd implement that: 
 
     import pandas as pd
-    from equities import Universe, Company
+    from equities import Universe
     import matplotlib.pyplot as plt
 
     u = Universe()
@@ -108,7 +91,7 @@ Here is the code that this function executes:
     k,f,s = 'bar',(20,10),True
     for cik in u.ciks()[:5]:
 
-        u[cik].income().T.plot(
+        u.Statement().income().T.plot(
             kind=k,
             figsize=f,
             stacked=s)
