@@ -27,49 +27,39 @@ Consider donating bitcoin to fund the future development of this project.
 We begin by initializing our universe and downloading our sec data packages.
 
     from equities import Universe
-    u = Universe()
+    universe = Universe()
 
 #### Essential Methods 
 
 To get the number of companies in the universe call: 
-    len(u)
+    len(universe)
 
 "CIK" numbers are the sec's official unique identifier for public companies. To get a full list of the cik numbers call:
 
-    u.ciks()
+    universe.ciks()
+
+To get a dictionary mapping "cik" numbers to the names of companies execute:
+
+    universe.ciks_to_names()
 
 ## Company Queries: 
 
-#### Accessing Company 
+#### Requesting Company Json Data
 
-Dataframes of the company's financial statements over the universe in question is given by: 
+Company data can be accessed in data format by specifying the company's "cik" number.
 
-    c.income()      # income statement dataframe
+    universe.Company(cik)      # full json data response (metadata and dataframes)
 
-    c.balance()     # Balancesheet dataframe
+#### Requesting Dataframes of Financial Statements
 
-    c.cash()        # Cash Flow Statement dataframe
+Full XLBR pandas dataframes of a company's financial statements can be obtained by specifying the company's "cik" number and the "kind" of the statement: 
 
-    c.equity()      # Consolidated Equity dataframe
+    universe.Statement(cik,"income")      # income statement dataframe
 
-#### Accessing the Financial Statements
+    universe.Statement(cik,"balance")     # balance sheet dataframe
 
-Dataframes of the company's financial statements over the universe in question is given by: 
+    universe.Statement(cik,"cash")        # cashflow statement dataframe
 
-    c.income()      # income statement dataframe
-
-    c.balance()     # Balancesheet dataframe
-
-    c.cash()        # Cash Flow Statement dataframe
-
-    c.equity()      # Consolidated Equity dataframe
-
-
-#### Additional Company Details 
-
-To get the XBRL metadata for a given company as a pandas series call: 
-
-    c.properties()
     
 #### Example 
 
@@ -82,26 +72,25 @@ of the first five companies in the universe.
 
 Here's how we'd implement that: 
 
-    import pandas as pd
     from equities import Universe
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt 
 
-    u = Universe()
-    
+    universe = Universe()
+
     k,f,s = 'bar',(20,10),True
-    for cik in u.ciks()[:5]:
+    for cik in universe.ciks()[:5]:
 
-        u.Statement().income().T.plot(
+        universe.Statement(cik,kind="income").T.plot(
             kind=k,
             figsize=f,
             stacked=s)
 
-        u[cik].cash().T.plot(
+        universe.Statement(cik,kind="balance").T.plot(
             kind=k,
             figsize=f,
             stacked=s)
 
-        u[cik].balance().T.plot(
+        universe.Statement(cik,kind="cash").T.plot(
             kind=k,
             figsize=f,
             stacked=s)

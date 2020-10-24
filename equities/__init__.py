@@ -8,6 +8,9 @@ class Universe(object):
     def __len__(self):
         return len(self.ciks())
 
+    def ciks_to_names(self):
+        return self.api._fetch_cik_to_name_map()
+
     def ciks(self):
         return self.api.companies()
 
@@ -24,3 +27,6 @@ class Universe(object):
     def Statement(self,cik,kind):
         return self.api.financial_statement(
             cik,kind,df=True)
+
+
+
