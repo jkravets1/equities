@@ -1,10 +1,12 @@
 
 # 🐋 equities 
 
+### access to public company financial data
+
 ## Overview: 
 
-    equities allows for easy access to the SEC's XBRL Financial Statement Dataset
-    Parsed data is stored locally and served to the user in pandas dataframes
+    equities allows for easy access to the SEC's XBRL Financial Statement Dataset.
+    Data is served to the user in pandas dataframes. 
 
 ###### The Dataset: 
 
@@ -14,17 +16,11 @@ https://www.sec.gov/dera/data/financial-statement-data-sets.html
 
     pip3 install equities
 
-## Donate: 
-
-Consider donating bitcoin to fund the future development of this project. 
-
-    bitcoin wallet address: 3LU5MEaAXRJoCo6vx67g1Jj7qDFRKhMs5t
-
 ## TUTORIAL: 
 
 #### Instantiating a Universe
 
-We begin by initializing our universe and downloading our sec data packages.
+We begin by initializing a universe client.
 
     from equities import Universe
     universe = Universe()
@@ -96,3 +92,9 @@ Here's how we'd implement that:
             stacked=s)
 
     plt.show()
+
+## Donate: 
+
+Consider donating bitcoin to fund the future development of this project.
+
+    bitcoin wallet address: 3LU5MEaAXRJoCo6vx67g1Jj7qDFRKhMs5t
