@@ -18,25 +18,24 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "3.0.5"
+VERSION = "4.0.7"
 
 setup(
     name="equities", # Replace with your own username
     version=VERSION,
     author="Tiger_Shark",
     author_email="ljwcharles@gmail.com",
-    description="equities aims to democratize access to public company financial data.",
+    description="equities aims to democratize access to public company data.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ljc-codes/equities.git",
     packages=setuptools.find_packages(),
-    package_data={'equities.data.symbols': ['cik_api.csv']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     install_requires=required,
-    keywords="sec stock stockmarket equities equity data financials financial company public companies xbrl scraper parser pandas",
+    keywords="sec stock stockmarket equities equity data financials financial company public companies xbrl",
     python_requires='>=3.6',
 )
