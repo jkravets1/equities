@@ -3,21 +3,21 @@ from polity.static import EQUITIES_PUBLIC_API_KEY as API_KEY
 import yfinance as yf
 import pandas as pd 
 
-S = 130
+decorator = 80
 
 class Universe(object):
 
     def __init__(self):
 
         def initialize():
-            print('-'*S+'\n  '+'\t'*6+'🐋\tWelcome to equities.\n'
-                +'-'*S+'\n Initializing Universe...')
+            print('-'*decorator+'\n  '+'\t'*3+'🐋\tWelcome to equities.\n'
+                +'-'*decorator+'\n Initializing Universe. This may take a second...')
 
         def initialized():
             message = ''.join(['\n\t%s'%msg for msg in self._polity._fetch_equities_messages()])
             print('\r> 🌌\tUniverse initialized. size: %s\n'
                 %str(len(self.ciks))+' Success. You\'re good to go!\n'
-                +'-'*S + '\n Messages: %s'%message +'\n'+'-'*S)
+                +'-'*decorator + '\n Messages: %s'%message +'\n'+'-'*decorator)
 
         def failed(e):
             print('''\r> 🔫\n\tUniverse failed to initialize! If this
@@ -29,7 +29,6 @@ class Universe(object):
         try:
             initialize()
             self._polity = Client(api_key=API_KEY)
-
             self.ciks = list(self._polity.cik_to_name.keys())
             self.names = list(self._polity.cik_to_name.values())
             self.tickers = list(set(self._polity.cik_to_ticker.values()))

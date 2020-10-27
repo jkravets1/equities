@@ -1,7 +1,7 @@
 # 🐋 equities 
 =====================================
 
-democratizing u.s. public company data
+Democratizing U.S. Public Company Data
 
 ## Overview: 
 
@@ -53,7 +53,7 @@ To get the number of companies in the universe call:
 
     len(u)
 
-"CIK" numbers are the sec's official unique identifier for public companies. A full list of the cik numbers in the universe is found in:
+"CIK" numbers are the sec's official unique identifier for public companies. It stands for "Central Index Key" A full list of the cik numbers in the universe is found in:
 
     u.ciks
 
@@ -270,7 +270,6 @@ Here is the sample output of the above request. It is a dictionary. Here are it'
 
 The above data request is Full XLBR pandas dataframes of a company's financial statements can be obtained by specifying the company's "cik" or "ticker" of "cik" to the following functions
 
-.. code:: python
     u.prices(cik_or_ticker)                                 # prices,volume, splits dataframe
 
     u.dividends(cik_or_ticker)                              # dividend payouts dataframe
