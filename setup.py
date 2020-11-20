@@ -18,7 +18,7 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "4.0.11"
+VERSION = "4.0.18"
 
 setup(
     name="equities", # Replace with your own username

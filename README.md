@@ -6,7 +6,7 @@ Democratizing Access to U.S. Public Company Data
 
 ## Overview: 
 
-**equities** is a highly intuive and modern package for accessing high fidelity public company financial data. 
+**equities** is an intuive and modern package for accessing high fidelity public company financial data. 
     
 **equities** takes the approach of composing already existing stable and highly maintained libraries and apis. 
 
@@ -109,11 +109,33 @@ company data can be obtained by passing a "cik" or "ticker" into the "company()"
 
 The above requests returns a dictionary. Here are it's keys: 
 
-    dict_keys(['name', 'sic', 'business_address', 'mailing_address', 'phone', 'country_incorporated', 'state_incorporated', 'ein', 'former_name', 'income', 'balance', 'cash', 'equity', 'prices', 'actions', 'dividends', 'splits', 'major_holders', 'institutional_holders', 'events', 'recommendations', 'esg'])
+    dict_keys(
+        ['name',
+         'sic',
+         'business_address',
+         'mailing_address',
+         'phone',
+         'country_incorporated',
+         'state_incorporated', 'ein',
+         'former_name',
+         'income',
+         'balance',
+         'cash',
+         'equity',
+         'prices',
+         'actions',
+         'dividends',
+         'splits',
+         'major_holders',
+         'institutional_holders',
+         'events',
+         'recommendations',
+         'esg']
+    )
 
 Now see below the full response from the request.
 
- Observe that the keys, "income","balance","cash","equity" are dataframes and encode the income statement, balance sheet, cashflow statement and equity statement respectively of the company in question. Other keys also map to dataframes for example prices and institutional holders. this naming convention and structure is chosen for simplicity. 
+ Observe that the keys, "income","balance","cash","equity" are dataframes and encode the income statement, balance sheet, cashflow statement and equity statement respectively of the company in question. Other keys also map to dataframes for example "prices" and "institutional holders". Naming conventions and structure is chosen for simplicity. 
 
     > 📦    Fetching company: 1065280 ...
     {
@@ -332,12 +354,28 @@ Now see below the full response from the request.
             smallArms                   False
             environmentScore             0.16
             governancePercentile         None
-            militaryContract            False 
+            militaryContract            False, 
+        "interest":             NETFLIX INC isPartial
+            date                             
+            2015-11-22           57     False
+            2015-11-29           47     False
+            2015-12-06           45     False
+            2015-12-13           39     False
+            2015-12-20           32     False
+            ...                 ...       ...
+            2020-10-18           69     False
+            2020-10-25           57     False
+            2020-11-01           55     False
+            2020-11-08           63     False
+            2020-11-15           73      True
+
+            [261 rows x 2 columns]}
     }
+    
 
 #### Sub Functions
 
-The above data request is Full XLBR pandas dataframes of a company's financial statements can be obtained by specifying the company's "cik" or "ticker" of "cik" to the following functions
+The previous request pulls all data about a given company. This is obviously resource intensive. If you would like to request some subset of the full request, we advise using subfunctions. The following is a list of all available subfunctions.
 
     u.prices(cik_or_ticker)                                 # prices,volume, splits dataframe
 
@@ -362,6 +400,8 @@ The above data request is Full XLBR pandas dataframes of a company's financial s
     u.recommendations(cik_or_ticker)                        # analyst recommendations dataframe
 
     u.esg(cik_or_ticker)                                    # esg metrics dataframe
+
+    u.interest(name)                                        # google trends dataframe
 
 
 #### Example Use Case 
