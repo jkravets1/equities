@@ -18,7 +18,7 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "4.0.18"
+VERSION = "4.2.6"
 
 setup(
     name="equities", # Replace with your own username
@@ -39,3 +39,4 @@ setup(
     keywords="sec stock stockmarket equities equity data financials financial company public companies xbrl",
     python_requires='>=3.6',
 )
+

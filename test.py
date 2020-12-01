@@ -1,38 +1,28 @@
-from equities import Universe
-import matplotlib.pyplot as plt 
+import os ;from equities import Universe
+import random
 
 u = Universe()
 
 k,f,s = 'bar',(10,7),True
-for cik in u.ciks[:5]:
+ciks = u.ciks
+random.shuffle(ciks)
+
+for cik in u.ciks:
 
     c = u.company(cik)
 
     income = c['income']
     if not income.empty:
-        income.T.plot(
-        kind=k,
-        figsize=f,
-        stacked=s)
+        income.to_csv(os.path.join('data','income'+c['name']+'.csv'))
 
     balance = c['balance']
     if not balance.empty:
-        balance.T.plot(
-        kind=k,
-        figsize=f,
-        stacked=s) 
+        balance.to_csv(os.path.join('data','balance'+c['name']+'.csv'))
 
     cash = c['cash']
     if not cash.empty:
-        cash.T.plot(
-        kind=k,
-        figsize=f,
-        stacked=s)
+        cash.to_csv(os.path.join('data','cash'+c['name']+'.csv'))
 
     prices = c['prices']
     if not prices.empty:
-        prices.drop('Volume',axis=1).plot(
-            kind='line',
-            figsize=f)
-
-plt.show()
+        prices.to_csv(os.path.join('data','prices'+c['name']+'.csv'))

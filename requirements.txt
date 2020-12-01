@@ -1,4 +1,4 @@
-polity>=0.0.18
+solaris-api>=0.0.5
 pandas
 pytrends
 yfinance

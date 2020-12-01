@@ -1,12 +1,15 @@
 # 🐋 equities 
 
+
+--------------------------------------------------------------------------------------------------------------------
+
 Democratizing Access to U.S. Public Company Data
 
-=====================================
+--------------------------------------------------------------------------------------------------------------------
 
 ## Overview: 
 
-**equities** is an intuive and modern package for accessing high fidelity public company financial data. 
+**equities** is an intuitive package for accessing high fidelity public company financial data. 
     
 **equities** takes the approach of composing already existing stable and highly maintained libraries and apis. 
 
@@ -18,9 +21,13 @@ All data is served back to the user as dictionary objects or **pandas** datafram
     Sec Xbrl Financial Statement Data:
         - https://www.sec.gov/dera/data/financial-statement-data-sets.html
 
-    Prices, Recommendations, Major Holders, etc.. Data
+    Prices, Recommendations, Major Holders, etc:
     Yfinance Pypi Package
         - https://pypi.org/project/yfinance/
+
+    Trend Data
+    pytrends Pypi Package
+        - https://pypi.org/project/pytrends/
 
 ## Install: 
 
@@ -33,15 +40,15 @@ All data is served back to the user as dictionary objects or **pandas** datafram
 We begin by initializing a universe client.
 
     from equities import Universe
-    u = Universe()
+    u = Universe(verbose=True)
 
-The results of initializing should look something like this: 
+The verbose optional argument defaults to False. 
+The results of initializing with the verbose=True looks something like this: 
 
     ----------------------------------------
     🐋	Welcome to equities.
     ----------------------------------------
     Initializing Universe...
-    > 🏛️	Welcome to polity.
     > ✨	Auth success. apis connected.
     > 🌌	Universe initialized. size: 7896
     Success. You're good to go!
