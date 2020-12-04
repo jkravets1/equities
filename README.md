@@ -463,9 +463,3 @@ Here's how we'd implement that:
         # within the results "c", using sub functions would be much more efficient.
 
     plt.show()
-
-## Donate: 
-
-Consider buying me a coffee to fund the future development of this project.
-
-    bitcoin wallet address: 3LU5MEaAXRJoCo6vx67g1Jj7qDFRKhMs5t
