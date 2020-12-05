@@ -1,168 +1,171 @@
+import concurrent.futures
 import pandas as pd 
-from equities import static
+from equities import static as STATIC 
 from solaris.api import Client as SolarisClient
 from pytrends.request import TrendReq as GoogleTrendClient
 import yfinance as YahooFinanceClient
 
+__verison__ = STATIC.__verison__
+__author__  = STATIC.__author__
+
 class Universe(object):
+    """ class to encapsulate the notion of a universe of stocks"""
 
     def __init__(self,verbose=False):
         try:
-            self.verbose = verbose
-            static.initialize(self.verbose)
-            self._solaris = SolarisClient(verbose=self.verbose)
+            # sets verbosity level and prints begin init text
+            self.verbose = verbose; STATIC.initialize(self.verbose)
+
+            # connects clients 
+            self._sol = SolarisClient(verbose=self.verbose)
             self._pytrends = GoogleTrendClient(hl='en-US', tz=360)
-            self.ciks = list(set(self._solaris.cik_to_name.keys()))
-            self.names  = list(set(self._solaris.cik_to_name.values()))
-            self.tickers = list(set(self._solaris.cik_to_ticker.values()))
-            messages = self._solaris._fetch_equities_messages()
-            static.initialized(self.verbose,messages,len(self.ciks))
+
+            # sets stock identification variables 
+            self.tickers = list(set(self._sol.cik_to_ticker.values()))
+            self.names = list(set(self._sol.cik_to_name.values()))
+            self.ciks = list(set(self._sol.cik_to_name.keys()))
+
+            # prints end init text
+            messages = self._sol._fetch_equities_messages()
+            STATIC.initialized(self.verbose,messages,len(self.ciks))
 
         except Exception as e:
-            static.failed(e)
+            STATIC.failed(e)
 
+    def __len__(self):
+        return len(self.ciks)
 
-    def __len__(self): return len(self.ciks)
-
-    def __str__(self): return str(self._solaris.name_to_cik)
-
+    def __str__(self):
+        return str(self._sol.name_to_cik)
 
     def _query_y_finance(self,cik_or_ticker):
-
+        """ returns a yfinance Ticker object by quering YahooFinance
+            for a given cik or ticker
+        """
         cik = self._convert_to_cik(cik_or_ticker)
-        ticker = self._solaris.cik_to_ticker[cik]
-
+        ticker = self._sol.cik_to_ticker[cik]
         return YahooFinanceClient.Ticker(ticker)
 
 
     def _convert_to_cik(self,cik_or_ticker):
-
+        """ returns a cik from a query/ticker into the corresponding 
+            cik number with cleaning.
+        """
         symbol = cik_or_ticker.lower().replace(' ','')
-        
         if symbol in self.tickers:
-            return self._solaris.ticker_to_cik[symbol]
-        
+            return self._sol.ticker_to_cik[symbol]
         elif str(int(cik_or_ticker)) in self.ciks:
             return str(int(cik_or_ticker))
+        else: 
+            print('Error Could not Convert: %s'%cik_or_ticker)
+            quit()
 
+    def _set_verbose(self,verbose):
+        """sets universes' stdout level of verbosity"""
+        self.verbose = verbose
+        self._sol.verbose = verbose 
 
     def _invert_dict(self,to_invert):
+        """inverts an arbitrary python dictionary"""
         return {v:k for k,v in to_invert.items()}
 
-
     def cik_to_name(self):
-
-        labels = self._solaris.cik_to_name
-        return dict(zip(labels.keys(),labels.values()))
-
+        """returns a  dict mapping ciks to company names"""
+        return dict(zip(
+            self._sol.cik_to_name.keys(),self._sol.cik_to_name.values()
+            ))
 
     def cik_to_ticker(self):
-
-        labels = self._solaris.cik_to_ticker
-        return dict(zip(labels.keys(),labels.values()))
-
+        """returns a dict mapping ciks to tickers"""
+        return dict(zip(
+            self._sol.cik_to_ticker.keys(),self._sol.cik_to_ticker.values()
+            ))
 
     def ticker_to_cik(self):
+        """returns a dict mapping tickers to ciks"""
         return self._invert_dict(self.cik_to_name)
 
-
-    def name_to_cik(self):        
+    def name_to_cik(self):
+        """returns a dict mapping names to ciks"""
         return self._invert_dict(self.cik_to_name)
-
 
     def prices(self,cik_or_ticker):
-
+        """returns a price dataframe for the given cik or tickers"""
         try:
             return self._query_y_finance(cik_or_ticker).history(period='max')
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def actions(self,cik_or_ticker):
-
+        """returns a corporate actions dataframe for the given cik or tickers"""
         try:
             return self._query_y_finance(cik_or_ticker).actions
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def dividends(self,cik_or_ticker):
-        
+        """returns a dividends dataframe for the given cik or tickers"""
         try:
             return self._query_y_finance(cik_or_ticker).dividends
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def splits(self,cik_or_ticker):
-
+        """returns a splits dataframe for the given cik or tickers"""
         try:
             return self._query_y_finance(cik_or_ticker).splits
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def major_holders(self,cik_or_ticker):
-
+        """returns a dataframe of major holders for the given cik or ticker"""
         try:
             return self._query_y_finance(cik_or_ticker).major_holders
         except Exception as e:
-            print(e)
             return pd.DataFrame()
         
-
     def institutional_holders(self,cik_or_ticker):
-
+        """returns a dataframe of instiutional holders for the given cik or ticker"""
         try:
             return self._query_y_finance(cik_or_ticker).institutional_holders
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def events(self,cik_or_ticker):
-
+        """returns a dataframe of earnings events for the given cik or ticker"""
         try:
             return self._query_y_finance(cik_or_ticker).calendar
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def recommendations(self,cik_or_ticker):
-
+        """returns a dataframe buy/sell side recommendations for the given cik or ticker"""
         try:
             return self._query_y_finance(cik_or_ticker).recommendations
         except Exception as e:
-            print(e)
             return pd.DataFrame()
 
-
     def esg(self,cik_or_ticker):
-
+        """returns a dataframe esg metrics for the given cik or ticker"""
         try:
             return self._query_y_finance(cik_or_ticker).sustainability
         except Exception as e:
-            print(e)
             return pd.DataFrame()
-
 
     def financial_statement(self,cik_or_ticker,kind):
-
+        """returns a financial statement dataframe for the given cik or ticker
+            and kind of statement. kind must be a string contained in the following 
+            list: ['income','balance','cash','equity'].
+        """
         try:
             cik = self._convert_to_cik(cik_or_ticker)
-            return self._solaris.financial_statement(cik,kind,df=True)
+            return self._sol.financial_statement(cik,kind,df=True)
         except Exception as e:
-            print(e)
+            #print(e)
             return pd.DataFrame()
 
-
     def interest(self,name):
-
+        """returns a dataframe of google search interest for a particular name"""
         try:
             self._pytrends.build_payload(
                 [name.replace('/','')],
@@ -175,44 +178,60 @@ class Universe(object):
             print(e)
             return pd.DataFrame()
 
-
     def search(self,query):
-        
+        """ returns a dict mapping ciks to names containing 
+            matched companies to a given query.
+        """
         matches = []
-                
         for name in self.names:
             if query.lower() in name.lower():
-                matches.append(self._solaris.name_to_cik[name])
+                matches.append(self._sol.name_to_cik[name])
         for ticker in self.tickers:
             if query.lower() in ticker.lower():
-                matches.append(self._solaris.ticker_to_cik[ticker])
+                matches.append(self._sol.ticker_to_cik[ticker])
         for cik in self.ciks:
             if query in cik:
                 matches.append(cik)
+        STATIC.search(self.verbose,query,str(len(matches)))
+        return {self._sol.cik_to_name[match]:match for match in matches}
 
-        static.search(self.verbose,query,str(len(matches)))
-        return {self._solaris.cik_to_name[match]:match for match in matches}
+    def company(self,query,search=False):
+        """returns a dictionary of data for a given ticker/cik/search query"""
 
+        def execute_request(cik):
+            """executes data request"""
+            sol_data = self._sol.company(cik,df=True)
+            yfinance_data = {
+                'prices' : self.prices(cik),
+                'actions' : self.actions(cik),
+                'dividends' : self.dividends(cik),
+                'splits' : self.splits(cik),
+                'major_holders' : self.major_holders(cik),
+                'institutional_holders': self.institutional_holders(cik),
+                'events': self.events(cik),
+                'recommendations': self.recommendations(cik),
+                'esg': self.esg(cik),
+                'interest': self.interest(sol_data['name'])
+            }
+            sol_data.update(yfinance_data)
+            return  sol_data
 
-    def company(self,cik_or_ticker_query,search=False):
-
-        if search: cik = list(self.search(cik_or_ticker_query).values())[0]
-        else: cik = self._convert_to_cik(cik_or_ticker_query)
-
-        solaris_data = self._solaris.company(cik,df=True)
-
-        yfinance_data = {
-            'prices' : self.prices(cik),
-            'actions' : self.actions(cik),
-            'dividends' : self.dividends(cik),
-            'splits' : self.splits(cik),
-            'major_holders' : self.major_holders(cik),
-            'institutional_holders': self.institutional_holders(cik),
-            'events': self.events(cik),
-            'recommendations': self.recommendations(cik),
-            'esg': self.esg(cik),
-            'interest': self.interest(solaris_data['name'])
-        }
-
-        solaris_data.update(yfinance_data)
-        return  solaris_data
+        if type(query) == str:
+            if search: # singleticker case (searches if specified)
+                cik = list(self.search(query).values())[0]
+            else:
+                cik = self._convert_to_cik(query)
+            return execute_request(query)
+        elif type(query) == list:
+            results = None # multiticker case (multithreaded,recursive)
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                args = (ticker for ticker in query)
+                saved_verbose = self.verbose; self._set_verbose(True)
+                future = executor.map(self.company, args)
+                results = dict(zip(query,future))
+            self._set_verbose(saved_verbose)
+            return results 
+        else: 
+            print('Error with arguments: %s'%str(query))
+            quit()
+            

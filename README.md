@@ -111,10 +111,12 @@ company data can be obtained by passing a "cik" or "ticker" into the "company()"
     
     u.company('nflx')
     
-    # we can also pass in a query like this: u.company("Netflix",search=True). 
+    # We can also pass in a query like this: u.company("Netflix",search=True). 
     # It returns the first result of the search query. 
+    # for multithreaded bunk downloads, we can supply a list of queries to the function.
+    # for example: u.company(u.ciks)
 
-The above requests returns a dictionary. Here are it's keys: 
+The above requests for netflix data returns a dictionary. Here are it's keys: 
 
     dict_keys(
         ['name',
@@ -123,7 +125,8 @@ The above requests returns a dictionary. Here are it's keys:
          'mailing_address',
          'phone',
          'country_incorporated',
-         'state_incorporated', 'ein',
+         'state_incorporated', 
+         'ein',
          'former_name',
          'income',
          'balance',
@@ -464,7 +467,7 @@ Here's how we'd implement that:
 
     plt.show()
 
-## Donate: 
+## Donate:
 
 Consider buying me a coffee to fund the future development of this project.
 

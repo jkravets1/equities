@@ -1,5 +1,8 @@
 spacing = 80
 
+__verison__ = '4.2.6'
+__author__  = 'Tiger_Shark'
+
 def initialize(verbose):
     if verbose:
         print('-'*spacing+'\n  '+'\t'*3+'🐋\tWelcome to equities.\n'
@@ -20,6 +23,6 @@ def search(verbose,query,matches):
 def failed(e):
     print('''\r> 🔫\n\tUniverse failed to initialize! If this
         problem persists please run the following:
-            1)pip3 install --upgrade solaris-api
-            2)pip3 install --upgrade equities\n\n
+            1)pip3 install --upgrade equities
+            2)pip3 install --upgrade solaris-apis\n\n
         Exception: %s \n \t The servers may also be down. :( '''%str(e))

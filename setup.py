@@ -1,6 +1,5 @@
 import sys
 import os
-
 import setuptools
 import setuptools.command.build_py
 import distutils.cmd
@@ -8,7 +7,6 @@ import distutils
 from distutils.core import setup, Extension
 import distutils.log
 import subprocess
-
 import distutils.log
 distutils.log.set_verbosity(distutils.log.INFO) # Set DEBUG level
 
@@ -18,7 +16,7 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "4.2.6"
+VERSION = "4.2.7"
 
 setup(
     name="equities", # Replace with your own username
