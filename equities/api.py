@@ -55,12 +55,15 @@ class Client(object):
             cik number with cleaning.
         """
         symbol = cik_or_ticker.lower().replace(' ','')
-        if symbol in self.tickers:
-            return self._sol.ticker_to_cik[symbol]
-        elif str(int(cik_or_ticker)) in self.ciks:
-            return str(int(cik_or_ticker))
-        else: 
-            print('Error Could not Convert: %s'%cik_or_ticker)
+        try:
+            if symbol in self.tickers:
+                return self._sol.ticker_to_cik[symbol]
+            elif str(int(cik_or_ticker)) in self.ciks:
+                return str(int(cik_or_ticker))
+            else: 
+                print('Error Could not Convert: %s'%cik_or_ticker)
+                return cik_or_ticker
+        except: 
             return cik_or_ticker
 
     def _set_verbose(self,verbose):
@@ -203,7 +206,11 @@ class Client(object):
 
         def execute_request(cik):
             """executes data request"""
-            sol_data = self._sol.company(cik,df=True)
+            try:
+                sol_data = self._sol.company(cik,df=True)
+            except:
+                sol_data = {'name' : cik }
+
             yfinance_data = {
                 'prices' : self.prices(cik),
                 'actions' : self.actions(cik),
@@ -217,7 +224,7 @@ class Client(object):
                 'interest': self.interest(sol_data['name'])
             }
             sol_data.update(yfinance_data)
-            return  sol_data
+            return sol_data
 
         if type(query) == str:
             if search: # singleticker case (searches if specified)

@@ -140,7 +140,8 @@ The above requests for netflix data returns a dictionary. Here are it's keys:
          'institutional_holders',
          'events',
          'recommendations',
-         'esg']
+         'esg',
+         'interest']
     )
 
 Now see below the full response from the request.

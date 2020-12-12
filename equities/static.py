@@ -1,5 +1,5 @@
 __spacing__ = 80
-__verison__ = '4.2.9'
+__verison__ = '4.2.12'
 __author__  = 'Tiger_Shark'
 
 def initialize(verbose):
