@@ -1,4 +1,4 @@
-solaris-api>=0.0.5
+solaris-api>=1.0.0
 pandas
 pytrends
 yfinance

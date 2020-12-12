@@ -1,5 +1,5 @@
-from equities import static 
-from equities.api import Universe
+from equities import static as STATIC
+from equities.models import Universe
 
-__verison__ = static.__verison__
-__author__  = static.__author__
+__verison__ = STATIC.__verison__
+__author__  = STATIC.__author__

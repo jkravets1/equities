@@ -113,7 +113,7 @@ company data can be obtained by passing a "cik" or "ticker" into the "company()"
     
     # We can also pass in a query like this: u.company("Netflix",search=True). 
     # It returns the first result of the search query. 
-    # for multithreaded bunk downloads, we can supply a list of queries to the function.
+    # for multithreaded bulk downloads, we can supply a list of queries to the function.
     # for example: u.company(u.ciks)
 
 The above requests for netflix data returns a dictionary. Here are it's keys: 

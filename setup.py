@@ -16,11 +16,11 @@ with open('requirements.txt') as f:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "4.2.7"
+from equities import static 
 
 setup(
     name="equities", # Replace with your own username
-    version=VERSION,
+    version=static.__verison__,
     author="Tiger_Shark",
     author_email="ljwcharles@gmail.com",
     description="equities aims to democratize access to public company data.",
@@ -37,4 +37,3 @@ setup(
     keywords="sec stock stockmarket equities equity data financials financial company public companies xbrl",
     python_requires='>=3.6',
 )
-

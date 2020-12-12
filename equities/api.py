@@ -8,8 +8,8 @@ import yfinance as YahooFinanceClient
 __verison__ = STATIC.__verison__
 __author__  = STATIC.__author__
 
-class Universe(object):
-    """ class to encapsulate the notion of a universe of stocks"""
+class Client(object):
+    """ equities composed clients """
 
     def __init__(self,verbose=False):
         try:
@@ -42,8 +42,11 @@ class Universe(object):
         """ returns a yfinance Ticker object by quering YahooFinance
             for a given cik or ticker
         """
-        cik = self._convert_to_cik(cik_or_ticker)
-        ticker = self._sol.cik_to_ticker[cik]
+        try:
+            cik = self._convert_to_cik(cik_or_ticker)
+            ticker = self._sol.cik_to_ticker[cik]
+        except:
+            ticker = cik_or_ticker
         return YahooFinanceClient.Ticker(ticker)
 
 
@@ -58,7 +61,7 @@ class Universe(object):
             return str(int(cik_or_ticker))
         else: 
             print('Error Could not Convert: %s'%cik_or_ticker)
-            quit()
+            return cik_or_ticker
 
     def _set_verbose(self,verbose):
         """sets universes' stdout level of verbosity"""
